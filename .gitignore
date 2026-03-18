@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+
+# Environment variables — NEVER push this
+.env
+
+# Data files
+data/uploads/
+data/vectorstore/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test files
+test_parser.py
+test_extractor.py
+test_embedder.py
+test_question_gen.py
+sample_resume.pdf
+
+# VS Code
+.vscode/
