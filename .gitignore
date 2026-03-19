@@ -4,15 +4,21 @@ venv/
 # Environment variables — NEVER push this
 .env
 
-# Data files
-data/uploads/
-data/vectorstore/
+# Data files — ignore contents but keep folders
+data/uploads/*
+data/vectorstore/*
+!data/uploads/.gitkeep
+!data/vectorstore/.gitkeep
+
+# Wrong data folder inside backend
+backend/data/
 
 # Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.pycache/
 
 # Test files
 test_parser.py
@@ -23,3 +29,7 @@ sample_resume.pdf
 
 # VS Code
 .vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
