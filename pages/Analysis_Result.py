@@ -185,21 +185,6 @@ for col, proj in zip(proj_cols, info["projects"]):
 # ── ACTION BUTTONS ────────────────────────────────────────────────────────────
 st.markdown("<div style='margin-top:2rem'></div>", unsafe_allow_html=True)
 
-# Inject alignment fix — forces both button wrappers to same height
-st.markdown("""
-<style>
-.btn-row > div[data-testid="column"] {
-    display: flex !important;
-    align-items: center !important;
-}
-.btn-row > div[data-testid="column"] .stButton,
-.btn-row > div[data-testid="column"] .stButton > button {
-    width: 100% !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown('<div class="btn-row">', unsafe_allow_html=True)
 col_a, col_b, _ = st.columns([1, 1.5, 2])
 
 with col_a:
@@ -212,5 +197,3 @@ with col_a:
 with col_b:
     if st.button("Generate Interview Questions →", key="next_btn"):
         st.switch_page("pages/Interview_Questions.py")
-
-st.markdown('</div>', unsafe_allow_html=True)

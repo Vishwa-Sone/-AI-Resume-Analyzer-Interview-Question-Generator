@@ -77,6 +77,10 @@ h1, h2, h3, h4 {
     transition: background .18s !important;
     box-shadow: var(--shadow-sm) !important;
     cursor: pointer !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 .stButton > button:hover { background: var(--accent-dk) !important; }
 
@@ -92,6 +96,7 @@ h1, h2, h3, h4 {
     box-shadow: none !important;
     letter-spacing: .05em !important;
     text-transform: uppercase !important;
+    height: auto !important;
 }
 .nav-btn .stButton > button:hover {
     background: var(--cream) !important;
@@ -111,6 +116,7 @@ h1, h2, h3, h4 {
     box-shadow: none !important;
     letter-spacing: .05em !important;
     text-transform: uppercase !important;
+    height: auto !important;
 }
 
 /* ── Outline button ── */
@@ -119,6 +125,7 @@ h1, h2, h3, h4 {
     color: var(--accent) !important;
     border: 1.5px solid var(--accent) !important;
     box-shadow: none !important;
+    height: 42px !important;
 }
 .outline-btn .stButton > button:hover {
     background: var(--accent-lt) !important;
@@ -146,6 +153,7 @@ h1, h2, h3, h4 {
     transition: background .18s !important;
     box-shadow: var(--shadow-sm) !important;
     cursor: pointer !important;
+    height: 42px !important;
 }
 [data-testid="stDownloadButton"] > button:hover { background: #0f1d38 !important; }
 
@@ -171,6 +179,7 @@ h1, h2, h3, h4 {
     visibility: visible !important;
     opacity: 1 !important;
     box-shadow: none !important;
+    height: auto !important;
 }
 [data-testid="stFileUploader"] button:hover,
 [data-testid="stFileUploaderDropzone"] button:hover {
@@ -274,10 +283,6 @@ label, [data-testid="stWidgetLabel"] p {
 hr { border: none !important; border-top: 1px solid var(--border) !important; }
 
 /* ── Button row alignment ── */
-.outline-btn .stButton > button,
-.stButton > button {
-    vertical-align: middle !important;
-}
 .outline-btn {
     display: flex !important;
     align-items: stretch !important;
@@ -316,9 +321,6 @@ def topbar():
 #  NAVBAR  — white bar with logo and page links
 # ─────────────────────────────────────────────────────────────────────────────
 def navbar(current_page):
-    """
-    current_page: 'home' | 'upload' | 'analysis' | 'questions'
-    """
     st.markdown("""
     <div style="background:#fff;border-bottom:2px solid #e2d9cc;
                 padding:.9rem 2.5rem;margin:0 -2.5rem;
@@ -354,7 +356,7 @@ def navbar(current_page):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  BREADCRUMB  — Home › Upload › Analysis Results
+#  BREADCRUMB
 # ─────────────────────────────────────────────────────────────────────────────
 def breadcrumb(crumbs: list):
     parts = []
@@ -371,7 +373,7 @@ def breadcrumb(crumbs: list):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  SECTION TITLE  — red left-bar + big heading
+#  SECTION TITLE
 # ─────────────────────────────────────────────────────────────────────────────
 def section_title(text: str):
     st.markdown(f"""
@@ -385,84 +387,43 @@ def section_title(text: str):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  STEP BAR  — 1 → 2 → 3 tracker
-#  Pure Streamlit columns — no HTML string joining at all
+#  STEP BAR
 # ─────────────────────────────────────────────────────────────────────────────
 def step_bar(step: int):
     c1_bg = "#16a34a" if 1 < step else ("#b5451b" if 1 == step else "#e2d9cc")
     c1_fg = "#fff"    if step >= 1  else "#a0a0b0"
     c1_lb = "✔"       if 1 < step  else "1"
-
     l1_bg = "#16a34a" if 1 < step else ("#b5451b" if 1 == step else "#e2d9cc")
-
     c2_bg = "#16a34a" if 2 < step else ("#b5451b" if 2 == step else "#e2d9cc")
     c2_fg = "#fff"    if step >= 2  else "#a0a0b0"
     c2_lb = "✔"       if 2 < step  else "2"
-
     l2_bg = "#16a34a" if 2 < step else ("#b5451b" if 2 == step else "#e2d9cc")
-
     c3_bg = "#16a34a" if 3 < step else ("#b5451b" if 3 == step else "#e2d9cc")
     c3_fg = "#fff"    if step >= 3  else "#a0a0b0"
     c3_lb = "✔"       if 3 < step  else "3"
-
     label_text = "Step 3 of 3 — Complete" if step == 3 else f"Step {step} of 3"
 
-    col1, lcol1, col2, lcol2, col3, label_col = st.columns(
-        [.15, .8, .15, .8, .15, 2.5]
-    )
-
+    col1, lcol1, col2, lcol2, col3, label_col = st.columns([.15, .8, .15, .8, .15, 2.5])
     with col1:
-        st.markdown(
-            f'<div style="background:{c1_bg};color:{c1_fg};border-radius:50%;'
-            f'width:26px;height:26px;display:flex;align-items:center;'
-            f'justify-content:center;font-size:.72rem;font-weight:700">'
-            f'{c1_lb}</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f'<div style="background:{c1_bg};color:{c1_fg};border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700">{c1_lb}</div>', unsafe_allow_html=True)
     with lcol1:
-        st.markdown(
-            f'<div style="height:2px;background:{l1_bg};margin-top:12px"></div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f'<div style="height:2px;background:{l1_bg};margin-top:12px"></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown(
-            f'<div style="background:{c2_bg};color:{c2_fg};border-radius:50%;'
-            f'width:26px;height:26px;display:flex;align-items:center;'
-            f'justify-content:center;font-size:.72rem;font-weight:700">'
-            f'{c2_lb}</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f'<div style="background:{c2_bg};color:{c2_fg};border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700">{c2_lb}</div>', unsafe_allow_html=True)
     with lcol2:
-        st.markdown(
-            f'<div style="height:2px;background:{l2_bg};margin-top:12px"></div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f'<div style="height:2px;background:{l2_bg};margin-top:12px"></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown(
-            f'<div style="background:{c3_bg};color:{c3_fg};border-radius:50%;'
-            f'width:26px;height:26px;display:flex;align-items:center;'
-            f'justify-content:center;font-size:.72rem;font-weight:700">'
-            f'{c3_lb}</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown(f'<div style="background:{c3_bg};color:{c3_fg};border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700">{c3_lb}</div>', unsafe_allow_html=True)
     with label_col:
-        st.markdown(
-            f'<p style="font-size:.76rem;color:#6b6b7b;margin:4px 0 0 6px;'
-            f'font-family:\'Nunito Sans\',sans-serif">{label_text}</p>',
-            unsafe_allow_html=True
-        )
-
+        st.markdown(f'<p style="font-size:.76rem;color:#6b6b7b;margin:4px 0 0 6px;font-family:\'Nunito Sans\',sans-serif">{label_text}</p>', unsafe_allow_html=True)
     st.markdown("<div style='margin-bottom:1.5rem'></div>", unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  DIVIDER LABEL  —  ──── Export & Actions ────
+#  DIVIDER LABEL
 # ─────────────────────────────────────────────────────────────────────────────
 def divider_label(label: str = None):
-    inner = (
-        f'<span style="font-family:\'Lora\',serif;font-size:.82rem;'
-        f'font-style:italic;color:#c9973a;white-space:nowrap">{label}</span>'
-    ) if label else ""
+    inner = (f'<span style="font-family:\'Lora\',serif;font-size:.82rem;font-style:italic;color:#c9973a;white-space:nowrap">{label}</span>') if label else ""
     st.markdown(f"""
     <div style="display:flex;align-items:center;gap:1rem;margin:2.5rem 0 2rem">
       <div style="flex:1;height:1px;background:#e2d9cc"></div>
@@ -473,16 +434,14 @@ def divider_label(label: str = None):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  INFO NOTE  — gold left-border tip box
+#  INFO NOTE
 # ─────────────────────────────────────────────────────────────────────────────
 def info_note(text: str):
     st.markdown(f"""
     <div style="background:#fdf8ee;border-left:3px solid #c9973a;
                 padding:.72rem 1rem;margin-bottom:1.8rem;
                 border-radius:0 4px 4px 0">
-      <p style="margin:0;font-size:.81rem;color:#7a5c10;line-height:1.6">
-        {text}
-      </p>
+      <p style="margin:0;font-size:.81rem;color:#7a5c10;line-height:1.6">{text}</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -490,57 +449,33 @@ def info_note(text: str):
 # ─────────────────────────────────────────────────────────────────────────────
 #  CARD HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
-def card_open(top_color: str = None, padding: str = "1.5rem 2rem",
-              margin_bottom: str = "1.2rem"):
+def card_open(top_color: str = None, padding: str = "1.5rem 2rem", margin_bottom: str = "1.2rem"):
     border_top = f"border-top:3px solid {top_color};" if top_color else ""
-    st.markdown(f"""
-    <div style="background:#fff;border:1px solid #e2d9cc;border-radius:4px;
-                padding:{padding};margin-bottom:{margin_bottom};{border_top}
-                box-shadow:0 1px 4px rgba(28,43,74,.06)">
-    """, unsafe_allow_html=True)
+    st.markdown(f'<div style="background:#fff;border:1px solid #e2d9cc;border-radius:4px;padding:{padding};margin-bottom:{margin_bottom};{border_top}box-shadow:0 1px 4px rgba(28,43,74,.06)">', unsafe_allow_html=True)
 
 def card_close():
     st.markdown("</div>", unsafe_allow_html=True)
 
 def card_heading(text: str):
-    st.markdown(f"""
-    <p style="font-family:'Lora',serif;font-size:.93rem;font-weight:700;
-              color:#1c2b4a;margin:0 0 1rem">{text}</p>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<p style="font-family:\'Lora\',serif;font-size:.93rem;font-weight:700;color:#1c2b4a;margin:0 0 1rem">{text}</p>', unsafe_allow_html=True)
 
 def card_section_label(text: str):
-    st.markdown(f"""
-    <p style="font-family:'Lora',serif;font-size:.85rem;font-weight:700;
-              color:#1c2b4a;text-transform:uppercase;letter-spacing:.06em;
-              margin:0 0 .9rem">{text}</p>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<p style="font-family:\'Lora\',serif;font-size:.85rem;font-weight:700;color:#1c2b4a;text-transform:uppercase;letter-spacing:.06em;margin:0 0 .9rem">{text}</p>', unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  MOCK DATA  — used until FastAPI backend is connected
+#  MOCK DATA
 # ─────────────────────────────────────────────────────────────────────────────
 MOCK_EXTRACTED_INFO = {
     "name":  "Alex Johnson",
     "email": "alex.johnson@email.com",
     "phone": "+91 98765 43210",
-    "skills": [
-        "Python", "FastAPI", "LangChain", "PostgreSQL", "Docker",
-        "React", "TensorFlow", "Git", "REST APIs", "Streamlit",
-    ],
-    "education": [
-        {"degree": "B.Tech in Computer Science",
-         "institute": "VTU, Bengaluru", "year": "2024"},
-    ],
-    "experience": [
-        {"role": "Python Intern", "company": "TechCorp Solutions",
-         "duration": "6 months",
-         "description": "Built REST APIs using FastAPI and PostgreSQL. Implemented CI/CD pipelines."},
-    ],
+    "skills": ["Python","FastAPI","LangChain","PostgreSQL","Docker","React","TensorFlow","Git","REST APIs","Streamlit"],
+    "education": [{"degree":"B.Tech in Computer Science","institute":"VTU, Bengaluru","year":"2024"}],
+    "experience": [{"role":"Python Intern","company":"TechCorp Solutions","duration":"6 months","description":"Built REST APIs using FastAPI and PostgreSQL. Implemented CI/CD pipelines."}],
     "projects": [
-        {"name": "Document Q&A Bot", "tech": "LangChain, ChromaDB, Ollama",
-         "description": "RAG-based document Q&A system using local LLMs."},
-        {"name": "Student Portal", "tech": "React, Node.js, MongoDB",
-         "description": "Full-stack web app for college student management."},
+        {"name":"Document Q&A Bot","tech":"LangChain, ChromaDB, Ollama","description":"RAG-based document Q&A system using local LLMs."},
+        {"name":"Student Portal","tech":"React, Node.js, MongoDB","description":"Full-stack web app for college student management."},
     ],
 }
 
@@ -576,8 +511,8 @@ CHIP_STYLES = [
 ]
 
 CATEGORY_STYLES = {
-    "Technical":      {"top": "#b5451b", "bg": "#fdf0ec", "fg": "#8f3515", "bd": "#e8bfb0", "icon": "🔧"},
-    "Project-Based":  {"top": "#1c4db5", "bg": "#f0f4fd", "fg": "#1c4db5", "bd": "#bfcfee", "icon": "🚀"},
-    "Behavioral":     {"top": "#a07820", "bg": "#fdf8ee", "fg": "#a07820", "bd": "#e8d9a0", "icon": "🧠"},
-    "Situational":    {"top": "#186a3b", "bg": "#f0fdf4", "fg": "#186a3b", "bd": "#a0dbb5", "icon": "🎯"},
+    "Technical":      {"top":"#b5451b","bg":"#fdf0ec","fg":"#8f3515","bd":"#e8bfb0","icon":"🔧"},
+    "Project-Based":  {"top":"#1c4db5","bg":"#f0f4fd","fg":"#1c4db5","bd":"#bfcfee","icon":"🚀"},
+    "Behavioral":     {"top":"#a07820","bg":"#fdf8ee","fg":"#a07820","bd":"#e8d9a0","icon":"🧠"},
+    "Situational":    {"top":"#186a3b","bg":"#f0fdf4","fg":"#186a3b","bd":"#a0dbb5","icon":"🎯"},
 }
