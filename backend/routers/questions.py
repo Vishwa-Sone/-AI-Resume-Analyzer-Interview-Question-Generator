@@ -1,12 +1,4 @@
-"""
-questions.py — Router
-=====================
-Handles interview question generation endpoint.
 
-This is a standalone endpoint — useful when you
-want to regenerate questions for an already
-processed resume without re-uploading it.
-"""
 
 from fastapi import APIRouter, HTTPException
 from ..services.question_gen import generate_questions
@@ -19,13 +11,7 @@ router = APIRouter(prefix="/questions", tags=["Questions"])
 async def generate_interview_questions(
     request: QuestionRequest
 ):
-    """
-    Generate interview questions from resume text.
-
-    Endpoint : POST /questions/generate
-    Input    : resume_text, job_role, job_description
-    Output   : categorized interview questions
-    """
+   
 
     if not request.resume_text.strip():
         raise HTTPException(

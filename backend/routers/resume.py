@@ -1,17 +1,4 @@
-"""
-resume.py — Router
-==================
-Handles the resume upload endpoint.
 
-Why separate router files?
-- Keeps main.py clean
-- Each router handles one feature area
-- Easy to add new routes later
-
-prefix="/resume" means all routes here
-start with /resume
-→ /resume/upload
-"""
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from ..services.parser import parse_resume
@@ -22,13 +9,7 @@ router = APIRouter(prefix="/resume", tags=["Resume"])
 
 @router.post("/upload")
 async def upload_resume(file: UploadFile = File(...)):
-    """
-    Upload resume and extract text from it.
-
-    Endpoint : POST /resume/upload
-    Input    : PDF or DOCX file
-    Output   : extracted text + filename
-    """
+   
 
     # Validate file type
     if not is_valid_file(file.filename):

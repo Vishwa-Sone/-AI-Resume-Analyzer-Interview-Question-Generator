@@ -1,25 +1,4 @@
-"""
-main.py
-=======
-The main FastAPI application — entry point
-of the entire backend.
 
-It does 3 things:
-1. Creates the FastAPI app
-2. Registers all routers
-3. Defines the /analyze endpoint
-
-/analyze does everything in one call:
-  file upload
-      ↓
-  parse text
-      ↓
-  extract info (Gemini)
-      ↓
-  generate questions (RAG)
-      ↓
-  return JSON to Streamlit
-"""
 
 import time
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
@@ -32,23 +11,16 @@ from .services.question_gen import generate_questions
 from .models.schemas import AnalyzeResponse
 from .utils.helpers import is_valid_file, truncate_text, save_upload
 from .routers import resume, questions
-
-# Load .env file — reads GOOGLE_API_KEY
 load_dotenv()
 
-# Create FastAPI app
 app = FastAPI(
     title="ResumeAI Backend",
     description="AI-powered resume analyzer and interview question generator",
     version="1.0.0"
 )
 
-# ── CORS Middleware ───────────────────────────────────────────────
-# Why needed?
-# Streamlit runs on port 8501
-# FastAPI runs on port 8000
-# Browsers block requests between different ports by default
-# CORS allows Streamlit to call FastAPI freely
+# CORS Middleware 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -56,13 +28,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Register Routers ──────────────────────────────────────────────
-# Adds all routes from resume.py and questions.py
+# Register Routers 
+
 app.include_router(resume.router)
 app.include_router(questions.router)
 
 
-# ── Health Check ──────────────────────────────────────────────────
+#  Health Check
 @app.get("/")
 def health_check():
     """
@@ -75,29 +47,14 @@ def health_check():
     }
 
 
-# ── MAIN ENDPOINT ─────────────────────────────────────────────────
+#  MAIN ENDPOINT 
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_resume(
     file:            UploadFile = File(...),
     job_role:        str        = Form(...),
     job_description: str        = Form("")
 ):
-    """
-    The main endpoint called by Streamlit frontend.
-
-    What it does in order:
-    1. Validates file type
-    2. Reads file bytes
-    3. Saves file to disk
-    4. Parses text from PDF/DOCX
-    5. Extracts structured info using Gemini
-    6. Generates interview questions using RAG
-    7. Returns everything as JSON
-
-    Endpoint : POST /analyze
-    Input    : file + job_role + job_description
-    Output   : { extracted_info, interview_questions }
-    """
+   
 
     # Step 1 — Validate file type
     if not is_valid_file(file.filename):
@@ -127,10 +84,10 @@ async def analyze_resume(
             detail="No text found. File may be a scanned image."
         )
 
-    # Step 5 — Truncate if too long
+    #  Truncate if too long
     resume_text = truncate_text(resume_text, max_chars=8000)
 
-    # Step 6 — Extract structured info using Gemini
+    # —Extract structured info using Gemini
     try:
         extracted_info = extract_info(resume_text)
     except Exception as e:
@@ -139,8 +96,7 @@ async def analyze_resume(
             detail=f"Failed to extract resume info: {str(e)}"
         )
 
-    # Step 7 — Wait before next Gemini call
-    # Prevents hitting API rate limits
+
     time.sleep(5)
 
     # Step 8 — Generate interview questions using RAG

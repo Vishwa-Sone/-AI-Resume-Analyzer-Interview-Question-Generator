@@ -6,7 +6,6 @@ import io
 
 def parse_resume(file_bytes: bytes, filename: str) -> str:
     
-    # Get the file extension — "pdf" or "docx"
     ext = filename.lower().split(".")[-1]
 
     if ext == "pdf":
@@ -27,12 +26,12 @@ def _parse_pdf(file_bytes: bytes) -> str:
 
     for page_num in range(len(pdf)):
         page = pdf[page_num]
-        text += page.get_text()   # extract text from this page
-        text += "\n"              # separate pages with newline
+        text += page.get_text()   
+        text += "\n"              
 
     pdf.close()
 
-    return text.strip()           # remove leading/trailing whitespace
+    return text.strip()           
 
 
 def _parse_docx(file_bytes: bytes) -> str:
@@ -41,7 +40,7 @@ def _parse_docx(file_bytes: bytes) -> str:
     doc = docx.Document(io.BytesIO(file_bytes))
 
     for paragraph in doc.paragraphs:
-        if paragraph.text.strip():             # skip blank paragraphs
+        if paragraph.text.strip():             
             text += paragraph.text + "\n"
 
     return text.strip()
