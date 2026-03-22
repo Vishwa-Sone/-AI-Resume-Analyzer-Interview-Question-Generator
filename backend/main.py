@@ -47,7 +47,7 @@ def health_check():
     }
 
 
-#  MAIN ENDPOINT 
+# ── MAIN ENDPOINT 
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_resume(
     file:            UploadFile = File(...),

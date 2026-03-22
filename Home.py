@@ -14,7 +14,7 @@ inject_css()
 topbar()
 navbar("home")
 
-# ── HERO ─────────────────────────────────────────────────────────────────────
+#  HERO 
 st.markdown("<div style='height:1.8rem'></div>", unsafe_allow_html=True)
 col_hero, col_card = st.columns([1.55, 1], gap="large")
 
@@ -75,7 +75,7 @@ with col_hero:
         if st.button("Begin Analysis →", key="hero_btn"):
             st.switch_page("pages/Upload_Resume.py")
 
-# ── WHAT YOU RECEIVE CARD ────────────────────────────────────────────────────
+#  WHAT YOU RECEIVE CARD 
 with col_card:
     st.markdown("""
     <div style="background:#fff;border:1px solid #e2d9cc;border-radius:4px;
@@ -128,7 +128,7 @@ with col_card:
     </p>
     """, unsafe_allow_html=True)
 
-# ── HOW IT WORKS ─────────────────────────────────────────────────────────────
+#  HOW IT WORKS 
 divider_label("How It Works")
 
 steps = [
@@ -161,7 +161,7 @@ for col, (num, color, bg, bd, title, desc) in zip(cols, steps):
         </div>
         """, unsafe_allow_html=True)
 
-# ── CTA BANNER ───────────────────────────────────────────────────────────────
+#  CTA BANNER 
 st.markdown("<div style='margin-top:1rem'></div>", unsafe_allow_html=True)
 st.markdown("""
 <div style="background:#1c2b4a;border-radius:4px;padding:2rem 2.5rem;
